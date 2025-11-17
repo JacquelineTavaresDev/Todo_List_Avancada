@@ -1,0 +1,131 @@
+.app {
+  max-width: 600px;
+  margin: 20px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.tarefa-form,
+.tarefa-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tarefa-form input,
+.tarefa-filtros input {
+  padding: 10px;
+  flex: 1 1 150px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border 0.2s;
+}
+
+.tarefa-form input:focus,
+.tarefa-filtros input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.tarefa-form button,
+.tarefa-filtros button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tarefa-form button:hover,
+.tarefa-filtros button:hover:not(:disabled) {
+  background-color: #357ABD;
+}
+
+.tarefa-filtros button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.tarefa-list-container {
+  margin-top: 10px;
+}
+
+.tarefa-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tarefa-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+  border-radius: 8px;
+}
+
+.tarefa-list li:hover {
+  background-color: #f1f5f9;
+}
+
+.tarefa-list li.concluida {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.7;
+}
+
+.tarefa-list button {
+  margin-left: auto;
+  padding: 5px 10px;
+  border: none;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tarefa-list button:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 480px) {
+  .tarefa-form input,
+  .tarefa-filtros input {
+    flex: 1 1 100%;
+  }
+
+  .tarefa-form button,
+  .tarefa-filtros button {
+    flex: 1 1 100%;
+  }
+
+  .tarefa-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tarefa-list button {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
