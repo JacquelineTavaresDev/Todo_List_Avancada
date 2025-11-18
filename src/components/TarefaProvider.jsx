@@ -14,31 +14,54 @@ export function TarefaProvider({ children }) {
   const [filtro, setFiltro] = useLocalStorage("filtro", "todas");
   const [busca, setBusca] = useLocalStorage("busca", "");
 
+  const tarefasNormalizadas = useMemo(() => {
+    return (Array.isArray(tarefas) ? tarefas : []).map(t => ({
+      id: typeof t.id === "number" ? t.id : 1,
+      titulo: t.titulo || "",
+      descricao: t.descricao || "",
+      concluida: Boolean(t.concluida),
+    }));
+  }, [tarefas]);
+
   const adicionarTarefa = useCallback(
     (titulo, descricao) => {
       const novaTarefa = {
-        id: tarefas.length > 0 ? Math.max(...tarefas.map(t => t.id)) + 1 : 1,
-        titulo,
-        descricao,
+        id:
+          tarefasNormalizadas.length > 0
+            ? Math.max(...tarefasNormalizadas.map(t => t.id)) + 1
+            : 1,
+        titulo: titulo || "",
+        descricao: descricao || "",
         concluida: false,
       };
+
       setTarefas(prev => [...prev, novaTarefa]);
     },
-    [tarefas, setTarefas]
+    [tarefasNormalizadas, setTarefas]
   );
 
-  const removerTarefa = useCallback((id) => {
-    setTarefas(prev => prev.filter(t => t.id !== id));
-  }, [setTarefas]);
+  const removerTarefa = useCallback(
+    id => {
+      setTarefas(prev => prev.filter(t => t.id !== id));
+    },
+    [setTarefas]
+  );
 
-  const toggleConcluida = useCallback((id) => {
-    setTarefas(prev =>
-      prev.map(t => (t.id === id ? { ...t, concluida: !t.concluida } : t))
-    );
-  }, [setTarefas]);
+  const toggleConcluida = useCallback(
+    id => {
+      setTarefas(prev =>
+        prev.map(t =>
+          t.id === id ? { ...t, concluida: !t.concluida } : t
+        )
+      );
+    },
+    [setTarefas]
+  );
 
   const tarefasFiltradas = useMemo(() => {
-    return tarefas
+    const buscaLower = (busca || "").toLowerCase();
+
+    return tarefasNormalizadas
       .filter(t =>
         filtro === "concluida"
           ? t.concluida
@@ -46,18 +69,20 @@ export function TarefaProvider({ children }) {
           ? !t.concluida
           : true
       )
-      .filter(t => t.titulo.toLowerCase().includes(busca.toLowerCase()))
+      .filter(t =>
+        (t.titulo || "").toLowerCase().includes(buscaLower)
+      )
       .sort((a, b) => a.id - b.id);
-  }, [tarefas, filtro, busca]);
+  }, [tarefasNormalizadas, filtro, busca]);
 
   const totalPendentes = useMemo(
-    () => tarefas.filter(t => !t.concluida).length,
-    [tarefas]
+    () => tarefasNormalizadas.filter(t => !t.concluida).length,
+    [tarefasNormalizadas]
   );
 
   const totalConcluidas = useMemo(
-    () => tarefas.filter(t => t.concluida).length,
-    [tarefas]
+    () => tarefasNormalizadas.filter(t => t.concluida).length,
+    [tarefasNormalizadas]
   );
 
   return (

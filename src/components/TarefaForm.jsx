@@ -21,12 +21,16 @@ export default function TarefaForm() {
   return (
     <form onSubmit={handleSubmit} className="tarefa-form">
       <input
+        id="titulo"
+        name="titulo"
         value={titulo.valor}
         onChange={titulo.onChange}
         placeholder="Título da tarefa"
         aria-label="Título da tarefa"
       />
       <input
+        id="descricao"
+        name="descricao"
         value={descricao.valor}
         onChange={descricao.onChange}
         placeholder="Descrição"
